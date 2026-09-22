@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Progress Profile: Student Performance Predictor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef2f7;--card:#fff;--ink:#14213d;--muted:#5b6780;--line:#d5dce8;--accent:#2f5bea;--onaccent:#fff;--red:#c62f3e;--amber:#b7791f;--green:#1f8a5b;--redbg:#fbeaec;--amberbg:#fbf3e2;--greenbg:#e5f4ec;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1626;--card:#182238;--ink:#e8edf7;--muted:#9aa7c2;--line:#2b3856;--accent:#7b9bff;--onaccent:#0f1626;--red:#ff7b87;--amber:#f0b955;--green:#4fd39a;--redbg:#3a1d26;--amberbg:#38301a;--greenbg:#173a2e}}
+:root[data-theme="dark"]{--bg:#0f1626;--card:#182238;--ink:#e8edf7;--muted:#9aa7c2;--line:#2b3856;--accent:#7b9bff;--onaccent:#0f1626;--red:#ff7b87;--amber:#f0b955;--green:#4fd39a;--redbg:#3a1d26;--amberbg:#38301a;--greenbg:#173a2e}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}
+[hidden]{display:none!important}
+header{background:var(--card);border-bottom:1px solid var(--line)}
+nav{max-width:1040px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:1.15rem;margin-right:auto;letter-spacing:-.01em}
+nav button{border:0;padding:7px 12px;font-size:.92rem}
+nav button[aria-current="page"]{background:var(--accent);color:var(--onaccent);font-weight:600}
+main{max-width:1040px;margin:0 auto;padding:28px 18px 56px}
+footer{max-width:1040px;margin:0 auto;padding:0 18px 32px;color:var(--muted);font-size:.82rem}
+h1{font-size:clamp(1.8rem,4.5vw,2.8rem);line-height:1.1;margin:0 0 8px;font-weight:800;letter-spacing:-.02em}
+h2{font-size:1.1rem;margin:0 0 12px;font-weight:600}
+h3{font-size:1rem;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 22px;max-width:62ch}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:800px){.grid,.g3{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:18px}
+.grid .panel{margin-bottom:0}
+.hero{padding:34px 0 26px}
+.hero h1{font-size:clamp(2.2rem,6vw,3.6rem);max-width:16ch}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.field{margin-bottom:14px}
+.field label{display:flex;justify-content:space-between;gap:10px;font-size:.92rem;font-weight:600}
+.field label output{color:var(--accent);font-variant-numeric:tabular-nums}
+.field small{color:var(--muted);display:block;margin-top:2px}
+input[type=text],input[type=number],select{width:100%;font:inherit;padding:9px 11px;margin-top:5px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+input[type=range]{width:100%;accent-color:var(--accent);margin:8px 0 0}
+input[type=file]{margin-top:6px;font-size:.85rem;max-width:100%}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:520px){.row2{grid-template-columns:1fr}}
+button{font:inherit;font-size:.9rem;padding:9px 16px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+button:hover{border-color:var(--accent)}
+button.primary{background:var(--accent);color:var(--onaccent);border-color:var(--accent);font-weight:600}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.err{color:var(--red);font-size:.88rem;min-height:1.3em;margin:8px 0 0}
+.pv{width:64px;height:64px;border-radius:50%;object-fit:cover;margin-top:8px}
+.head{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.avatar{width:92px;height:92px;border-radius:50%;background:var(--accent);color:var(--onaccent);display:grid;place-items:center;font-size:2.2rem;font-weight:800;overflow:hidden;flex:none}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.head h1{margin:0;font-size:clamp(1.6rem,4vw,2.2rem)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.chip{border:1px solid var(--line);border-radius:99px;padding:2px 12px;font-size:.84rem;color:var(--muted)}
+.acts{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.result{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.score{font-size:4.6rem;font-weight:800;line-height:1;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.score span{font-size:1.6rem;color:var(--muted);font-weight:400}
+.grade{font-size:1.1rem;font-weight:600;padding:3px 12px;border-radius:99px}
+.bar{position:relative;height:12px;border-radius:99px;margin:22px 0 6px;background:linear-gradient(90deg,var(--red) 0 40%,#e08a3c 40% 55%,var(--amber) 55% 70%,#6fbf8f 70% 85%,var(--green) 85% 100%);opacity:.9}
+.pin{position:absolute;top:-6px;width:4px;height:24px;background:var(--ink);border-radius:2px;transform:translateX(-2px)}
+.ticks{position:relative;height:16px;font-size:.72rem;color:var(--muted)}
+.ticks span{position:absolute;transform:translateX(-50%)}
+.risk{margin:14px 0 4px;font-weight:600}
+.goal{color:var(--muted);font-size:.9rem;margin:0}
+.hab{display:grid;grid-template-columns:1fr auto;gap:2px 10px;margin-bottom:12px;font-size:.9rem}
+.hab .t{height:7px;grid-column:1/3;background:var(--line);border-radius:99px;overflow:hidden}
+.hab .t i{display:block;height:100%;border-radius:99px}
+.warnings{display:grid;gap:10px}
+.w{border-left:5px solid;border-radius:8px;padding:10px 14px}
+.w b{display:block;font-size:.95rem}
+.w p{margin:2px 0 0;font-size:.88rem;color:var(--muted)}
+.w em{font-style:normal;font-weight:600;font-size:.8rem;margin-right:6px}
+.w.danger{border-color:var(--red);background:var(--redbg)}.w.danger em{color:var(--red)}
+.w.warn{border-color:var(--amber);background:var(--amberbg)}.w.warn em{color:var(--amber)}
+.w.ok{border-color:var(--green);background:var(--greenbg)}.w.ok em{color:var(--green)}
+.note{font-size:.8rem;color:var(--muted);margin-top:14px}
+ol.steps{padding-left:20px;margin:0}ol.steps li{margin-bottom:10px}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.82rem;color:var(--muted);font-weight:600}
+.scroll{overflow-x:auto}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.stat b{display:block;font-size:1.9rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.stat span{color:var(--muted);font-size:.84rem}
+.badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:600}
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:14px}
+.tools select{width:auto;margin:0}
+.addgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:700px){.addgrid{grid-template-columns:1fr 1fr}}
+.addgrid .field{margin:0}
+.addgrid label{font-size:.8rem}
+.authwrap{max-width:420px;margin:20px auto 0}
+.tabs{display:flex;gap:6px;margin-bottom:16px}
+.tabs button{flex:1}
+.tabs button[aria-current="page"]{background:var(--accent);color:var(--onaccent);font-weight:600}
+.who{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.who .avatar{width:52px;height:52px;font-size:1.3rem}
+.who .acts{margin-left:auto}
+</style>
+</head>
+<body>
+<header><nav aria-label="Main">
+  <span class="brand">Progress Profile</span>
+  <button type="button" data-go="home">Home</button>
+  <button type="button" data-go="how">How it works</button>
+  <button type="button" data-go="tips">Tips</button>
+  <button type="button" data-go="profile">My profile</button>
+  <button type="button" data-go="teacher">Teacher view</button>
+</nav></header>
+
+<main>
+<!-- HOME -->
+<section data-page="home">
+  <div class="hero">
+    <h1>See how a student is likely to score, before the exam.</h1>
+    <p class="sub">Enter attendance, study time, sleep and past marks. Progress Profile predicts the score, rates the risk, and shows warnings with clear next steps.</p>
+    <div class="btns"><button type="button" class="primary" data-go="profile">Create my profile</button><button type="button" data-go="teacher">Open teacher view</button></div>
+  </div>
+  <div class="g3">
+    <div class="panel"><h3>Predict</h3><p class="sub" style="margin:0">A score out of 100 and a grade from A to F, worked out from six habits.</p></div>
+    <div class="panel"><h3>Warn</h3><p class="sub" style="margin:0">Critical and watch warnings, such as attendance under 75% or too little sleep.</p></div>
+    <div class="panel"><h3>Compare</h3><p class="sub" style="margin:0">Teachers can add a whole class and see who needs help first.</p></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section data-page="how" hidden>
+  <h1>How it works</h1>
+  <p class="sub">A simple weighted model turns six inputs into one predicted score.</p>
+  <div class="grid">
+    <div class="panel">
+      <h2>Steps</h2>
+      <ol class="steps">
+        <li>Open <b>My profile</b> and enter your details and habits.</li>
+        <li>The site scores each habit and combines them using the weights on the right.</li>
+        <li>You get a predicted score, a grade and a risk level.</li>
+        <li>Warnings list what to fix first, most serious at the top.</li>
+        <li>Teachers can add many students in <b>Teacher view</b> and compare them.</li>
+      </ol>
+    </div>
+    <div class="panel">
+      <h2>What counts in the score</h2>
+      <table><tr><th>Input</th><th>Weight</th></tr>
+      <tr><td>Previous exam average</td><td>30%</td></tr><tr><td>Attendance</td><td>20%</td></tr><tr><td>Assignments submitted</td><td>20%</td></tr>
+      <tr><td>Study hours (20 h a week is full marks)</td><td>15%</td></tr><tr><td>Sleep (8 h is best)</td><td>8%</td></tr><tr><td>Phone, games and social media</td><td>7%</td></tr></table>
+    </div>
+  </div>
+  <div class="panel" style="margin-top:18px">
+    <h2>Risk levels</h2>
+    <table><tr><th>Predicted score</th><th>Grade</th><th>Risk</th></tr>
+    <tr><td>85 and above</td><td>A</td><td>Low</td></tr><tr><td>70 to 84</td><td>B</td><td>Low</td></tr><tr><td>55 to 69</td><td>C</td><td>Moderate</td></tr><tr><td>40 to 54</td><td>D</td><td>High</td></tr><tr><td>Below 40</td><td>F</td><td>Critical</td></tr></table>
+    <p class="note">This is an estimate, not a guarantee. The weights are a rule of thumb and are not trained on real school data.</p>
+  </div>
+</section>
+
+<!-- TIPS -->
+<section data-page="tips" hidden>
+  <h1>Tips to raise your score</h1>
+  <p class="sub">Small, steady changes in these six areas make the biggest difference.</p>
+  <div class="g3">
+    <div class="panel"><h3>Attendance</h3><p class="sub" style="margin:0">Stay above 85%. Many institutions bar students from exams below 75%.</p></div>
+    <div class="panel"><h3>Assignments</h3><p class="sub" style="margin:0">Clear the oldest pending assignment first, then set a weekly slot for the rest.</p></div>
+    <div class="panel"><h3>Study time</h3><p class="sub" style="margin:0">Aim for 10 to 12 focused hours a week. Short daily blocks beat one long night.</p></div>
+    <div class="panel"><h3>Sleep</h3><p class="sub" style="margin:0">Get 7 to 9 hours. Sleep helps you keep what you studied.</p></div>
+    <div class="panel"><h3>Distractions</h3><p class="sub" style="margin:0">Keep the phone in another room during study blocks and use app limits.</p></div>
+    <div class="panel"><h3>Past marks</h3><p class="sub" style="margin:0">Review old tests, find repeated mistakes, and revise the weakest topics first.</p></div>
+  </div>
+</section>
+
+<!-- PROFILE: FORM -->
+<section data-page="profile" hidden>
+<div id="formView">
+  <h1>Create your student profile</h1>
+  <p class="sub">Enter your details and habits. Your profile shows the prediction and warnings worked out from what you enter.</p>
+  <div class="grid">
+    <div class="panel">
+      <h2>About you</h2>
+      <div class="field"><label for="name">Full name</label><input type="text" id="name" maxlength="60" autocomplete="off"></div>
+      <div class="row2">
+        <div class="field"><label for="cls">Class or course</label><input type="text" id="cls" maxlength="40" placeholder="e.g. 10th, B.Tech CSE"></div>
+        <div class="field"><label for="sid">Roll or student ID</label><input type="text" id="sid" maxlength="30"></div>
+      </div>
+      <div class="field"><label for="school">School or college</label><input type="text" id="school" maxlength="60"></div>
+      <div class="field"><label for="goal">Target score (%)</label><input type="number" id="goal" min="0" max="100" placeholder="e.g. 80"></div>
+      <div class="field"><label for="photo">Photo (optional)</label><input type="file" id="photo" accept="image/*"><img class="pv" id="pvimg" alt="Selected photo preview" hidden></div>
+    </div>
+    <div class="panel">
+      <h2>Study habits</h2>
+      <div id="fields"></div>
+      <button type="button" class="primary" id="create">Create profile</button>
+      <p class="err" id="err" role="alert"></p>
+    </div>
+  </div>
+</div>
+<div id="profView" hidden>
+  <div class="panel head">
+    <div class="avatar" id="avatar"></div>
+    <div><h1 id="pName"></h1><div class="chips" id="chips"></div></div>
+    <div class="acts"><button type="button" id="toRoster">Add to class roster</button><button type="button" id="edit">Edit details</button><button type="button" id="fresh">New profile</button></div>
+  </div>
+  <p class="err" id="rosterMsg" style="color:var(--green)"></p>
+  <div class="grid">
+    <div>
+      <div class="panel">
+        <h2>Predicted performance</h2>
+        <div class="result"><div class="score"><b id="score">0</b><span>/100</span></div><div class="grade" id="grade"></div></div>
+        <div class="bar"><div class="pin" id="pin"></div></div>
+        <div class="ticks"><span style="left:40%">40 pass</span><span style="left:70%">70</span><span style="left:85%">85</span></div>
+        <div class="risk" id="risk"></div>
+        <p class="goal" id="goalTxt"></p>
+      </div>
+      <div class="panel" style="margin-top:18px"><h2>Habit snapshot</h2><div id="habits"></div></div>
+    </div>
+    <div class="panel">
+      <h2>Warnings and next steps</h2>
+      <div class="warnings" id="warnings"></div>
+      <p class="note">Your details stay in this browser only.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- TEACHER -->
+<section data-page="teacher" hidden>
+
+<!-- AUTH GATE -->
+<div id="teacherGate">
+  <h1>Teacher sign-in</h1>
+  <p class="sub">Sign up once with your name, email and college. You'll only see students from your own college.</p>
+  <div class="panel authwrap">
+    <div class="tabs">
+      <button type="button" id="tabSignup" aria-current="page">Sign up</button>
+      <button type="button" id="tabLogin">Log in</button>
+    </div>
+    <div id="signupBox">
+      <div class="field"><label for="tName">Full name</label><input type="text" id="tName" maxlength="60"></div>
+      <div class="field"><label for="tEmail">Email</label><input type="text" id="tEmail" maxlength="80" placeholder="name@college.edu"></div>
+      <div class="field"><label for="tCollege">College or school</label><input type="text" id="tCollege" maxlength="60"></div>
+      <button type="button" class="primary" id="signupBtn">Create teacher profile</button>
+    </div>
+    <div id="loginBox" hidden>
+      <div class="field"><label for="tEmailLogin">Email used to sign up</label><input type="text" id="tEmailLogin" maxlength="80" placeholder="name@college.edu"></div>
+      <button type="button" class="primary" id="loginBtn">Log in</button>
+    </div>
+    <p class="err" id="authErr" role="alert"></p>
+    <p class="note">This is a simple, browser-only sign-in for organizing classes. It is not secure and should not be used with real passwords or sensitive records.</p>
+  </div>
+</div>
+
+<!-- TEACHER CONTENT -->
+<div id="teacherContent" hidden>
+  <div class="who">
+    <div class="avatar" id="tAvatar"></div>
+    <div><b id="tWho"></b><div class="chips"><span class="chip" id="tCollegeChip"></span></div></div>
+    <div class="acts"><button type="button" id="tLogout">Log out</button></div>
+  </div>
+  <h1>Teacher view</h1>
+  <p class="sub">Add students from your college to compare a class. The list is sorted with the lowest predicted scores first, so you can see who needs help.</p>
+  <div class="stats">
+    <div class="stat"><b id="sCount">0</b><span>Students</span></div>
+    <div class="stat"><b id="sAvg">0</b><span>Class average</span></div>
+    <div class="stat"><b id="sRisk">0</b><span>Need attention (under 55)</span></div>
+    <div class="stat"><b id="sCrit">0</b><span>Critical warnings</span></div>
+  </div>
+  <div class="panel">
+    <h2>Add a student</h2>
+    <div class="addgrid" id="addgrid"></div>
+    <div class="btns" style="margin-top:14px"><button type="button" class="primary" id="addBtn">Add student</button><button type="button" id="sample">Load sample class</button><button type="button" id="clearR">Clear all</button></div>
+    <p class="err" id="rerr" role="alert"></p>
+  </div>
+  <div class="panel">
+    <div class="tools"><h2 style="margin:0;margin-right:auto">Class roster</h2>
+      <select id="flt" aria-label="Filter roster"><option value="all">All students</option><option value="risk">Need attention only</option></select></div>
+    <div class="scroll"><table><thead><tr><th>Student</th><th>Predicted</th><th>Risk</th><th>Critical</th><th>Main concern</th><th></th></tr></thead><tbody id="rbody"></tbody></table></div>
+    <p class="note" id="rempty" hidden>No students yet. Add one above or load the sample class.</p>
+    <p class="note">Roster is saved in this browser only.</p>
+  </div>
+</div>
+</section>
+</main>
+<footer>Progress Profile gives estimates to start a conversation. It does not replace a teacher's judgement.</footer>
+
+<script>
+var F=[
+ {id:"prev",label:"Previous exam average",short:"Previous %",unit:"%",min:0,max:100,val:65,hint:"Average of your last exams or tests"},
+ {id:"att",label:"Attendance",short:"Attendance %",unit:"%",min:0,max:100,val:85,hint:"Classes attended out of total classes"},
+ {id:"asg",label:"Assignments submitted",short:"Assignments %",unit:"%",min:0,max:100,val:80,hint:"Share of assignments completed on time"},
+ {id:"study",label:"Study hours per week",short:"Study h/week",unit:" h",min:0,max:30,val:10,hint:"Focused study outside class"},
+ {id:"sleep",label:"Sleep per night",short:"Sleep h/night",unit:" h",min:3,max:12,val:7,step:.5,hint:"Average on school nights"},
+ {id:"dist",label:"Phone, games and social media",short:"Screen h/day",unit:" h/day",min:0,max:10,val:3,step:.5,hint:"Non-study screen time per day"}
+];
+var $=function(i){return document.getElementById(i)};
+function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e}
+function clamp(x){return Math.max(0,Math.min(100,x))}
+var COL={danger:"var(--red)",warn:"var(--amber)",ok:"var(--green)"};
+
+/* ---------- navigation ---------- */
+function go(p){
+  document.querySelectorAll("[data-page]").forEach(function(s){s.hidden=s.dataset.page!==p});
+  document.querySelectorAll("nav [data-go]").forEach(function(b){if(b.dataset.go===p)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});
+  if(p==="teacher")renderTeacherPage();
+  window.scrollTo(0,0);
+}
+document.querySelectorAll("[data-go]").forEach(function(b){b.addEventListener("click",function(){go(b.dataset.go)})});
+
+/* ---------- prediction model ---------- */
+function analyse(v){
+  var W=[],st={};
+  function add(id,s,t,m){st[id]=s;W.push({s:s,t:t,m:m})}
+  var studyS=clamp(v.study/20*100),sleepS=clamp(100-Math.abs(v.sleep-8)*15),distS=clamp(100-v.dist*15);
+  var pred=Math.round(clamp(.30*v.prev+.20*v.att+.20*v.asg+.15*studyS+.08*sleepS+.07*distS));
+  if(v.att<75)add("att","danger","Attendance is under 75%","Many schools and colleges bar students from exams below this level. Attend every class from now on.");
+  else if(v.att<85)add("att","warn","Attendance is slipping","Missed classes add up. Try to stay above 85%.");
+  if(v.asg<60)add("asg","danger","Too many assignments are missing","Unsubmitted work costs marks directly. Finish the oldest pending assignment first.");
+  else if(v.asg<80)add("asg","warn","Some assignments are late or missing","Set a weekly slot to clear pending work.");
+  if(v.study<5)add("study","danger","Very little study time","Under 5 hours a week is rarely enough. Add 30 to 45 minutes every day.");
+  else if(v.study<10)add("study","warn","Study time is on the low side","Aim for 10 to 12 focused hours a week.");
+  if(v.sleep<6)add("sleep","danger","Not enough sleep","Under 6 hours hurts memory and focus. Move bedtime earlier by 30 minutes.");
+  else if(v.sleep<7)add("sleep","warn","Sleep is a little short","7 to 9 hours helps you retain what you study.");
+  else if(v.sleep>9.5)add("sleep","warn","Sleeping much more than usual","Very long sleep can point to low energy or stress. Talk to a teacher or counsellor if it continues.");
+  if(v.dist>5)add("dist","danger","Heavy phone and game use","More than 5 hours a day takes time from study. Try app limits during study hours.");
+  else if(v.dist>3)add("dist","warn","Screen distractions are high","Keep the phone in another room during study blocks.");
+  if(v.prev<40)add("prev","danger","Previous marks were below the pass mark","Ask the teacher which topics were weakest and revise those first.");
+  else if(v.prev<55)add("prev","warn","Previous marks were low","Review past tests to find repeated mistakes.");
+  if(pred<v.prev-10)W.push({s:"warn",t:"Predicted score is lower than past results",m:"Current habits point to a drop of "+(v.prev-pred)+" marks compared with the last exams."});
+  if(pred<40)W.push({s:"danger",t:"Predicted score is below the pass mark",m:"Several habits are pulling the result down. Start with the first warning in this list."});
+  var o={danger:0,warn:1,ok:2};W.sort(function(a,b){return o[a.s]-o[b.s]});
+  if(!W.length)W.push({s:"ok",t:"No warnings",m:"Attendance, study time, sleep and assignments are all in a healthy range."});
+  return {pred:pred,st:st,W:W,pct:{prev:v.prev,att:v.att,asg:v.asg,study:studyS,sleep:sleepS,dist:clamp(100-v.dist*10)}};
+}
+function band(p){
+  if(p>=85)return{g:"A",lab:"Low",r:"Low risk: on track for a strong result.",c:"var(--green)",bg:"var(--greenbg)"};
+  if(p>=70)return{g:"B",lab:"Low",r:"Low risk: doing well, keep the routine steady.",c:"var(--green)",bg:"var(--greenbg)"};
+  if(p>=55)return{g:"C",lab:"Moderate",r:"Moderate risk: a few habits are holding the score back.",c:"var(--amber)",bg:"var(--amberbg)"};
+  if(p>=40)return{g:"D",lab:"High",r:"High risk: close to the pass mark, act now.",c:"var(--red)",bg:"var(--redbg)"};
+  return{g:"F",lab:"Critical",r:"Critical risk: likely to fail without changes.",c:"var(--red)",bg:"var(--redbg)"};
+}
+
+/* ---------- profile form ---------- */
+var photo="",cur=null;
+F.forEach(function(f){
+  var d=el("div","field");
+  d.innerHTML='<label for="'+f.id+'">'+f.label+' <output id="o_'+f.id+'"></output></label><input type="range" id="'+f.id+'" min="'+f.min+'" max="'+f.max+'" step="'+(f.step||1)+'" value="'+f.val+'"><small>'+f.hint+'</small>';
+  $("fields").appendChild(d);
+  d.querySelector("input").addEventListener("input",labels);
+});
+function labels(){F.forEach(function(f){$("o_"+f.id).textContent=$(f.id).value+f.unit})}
+labels();
+$("photo").addEventListener("change",function(e){
+  var file=e.target.files[0];if(!file)return;
+  var r=new FileReader();
+  r.onload=function(){var im=new Image();im.onload=function(){
+    var c=document.createElement("canvas");c.width=c.height=200;var s=Math.min(im.width,im.height);
+    c.getContext("2d").drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,200,200);
+    photo=c.toDataURL("image/jpeg",.8);$("pvimg").src=photo;$("pvimg").hidden=false;
+  };im.src=r.result};r.readAsDataURL(file);
+});
+function collect(){var v={};F.forEach(function(f){v[f.id]=parseFloat($(f.id).value)});
+  return {name:$("name").value.trim(),cls:$("cls").value.trim(),sid:$("sid").value.trim(),school:$("school").value.trim(),goal:$("goal").value,photo:photo,v:v}}
+function fill(d){
+  $("name").value=d.name||"";$("cls").value=d.cls||"";$("sid").value=d.sid||"";$("school").value=d.school||"";$("goal").value=d.goal||"";
+  F.forEach(function(f){if(d.v&&d.v[f.id]!==undefined)$(f.id).value=d.v[f.id]});
+  photo=d.photo||"";if(photo){$("pvimg").src=photo;$("pvimg").hidden=false}else{$("pvimg").hidden=true}
+  labels();
+}
+function store(k,val){try{localStorage.setItem(k,JSON.stringify(val))}catch(e){}}
+function read(k){try{var s=localStorage.getItem(k);return s?JSON.parse(s):null}catch(e){return null}}
+$("create").addEventListener("click",function(){
+  var d=collect();
+  if(!d.name){$("err").textContent="Enter your full name to create the profile.";$("name").focus();return}
+  $("err").textContent="";store("pp_profile",d);show(d);
+});
+$("edit").addEventListener("click",function(){$("profView").hidden=true;$("formView").hidden=false;window.scrollTo(0,0)});
+$("fresh").addEventListener("click",function(){
+  try{localStorage.removeItem("pp_profile")}catch(e){}
+  fill({v:{prev:65,att:85,asg:80,study:10,sleep:7,dist:3}});$("photo").value="";
+  $("profView").hidden=true;$("formView").hidden=false;window.scrollTo(0,0);
+});
+$("toRoster").addEventListener("click",function(){
+  if(!cur)return;var R=read("pp_roster")||[];
+  R.push({id:Date.now()+Math.random(),name:cur.name,school:cur.school||"",v:cur.v});store("pp_roster",R);
+  $("rosterMsg").textContent=cur.name+" was added to the class roster. Open Teacher view to compare.";
+});
+function show(d){
+  cur=d;var a=analyse(d.v),b=band(a.pred);
+  $("formView").hidden=true;$("profView").hidden=false;$("rosterMsg").textContent="";window.scrollTo(0,0);
+  $("pName").textContent=d.name;
+  var av=$("avatar");av.textContent="";
+  if(d.photo){var im=el("img");im.src=d.photo;im.alt="Photo of "+d.name;av.appendChild(im)}
+  else av.textContent=d.name.split(/\s+/).slice(0,2).map(function(w){return w.charAt(0).toUpperCase()}).join("");
+  var ch=$("chips");ch.textContent="";
+  [d.cls,d.school,d.sid?"ID "+d.sid:""].forEach(function(t){if(t)ch.appendChild(el("span","chip",t))});
+  $("score").textContent=a.pred;$("pin").style.left=a.pred+"%";
+  var ge=$("grade");ge.textContent="Grade "+b.g;ge.style.color=b.c;ge.style.background=b.bg;
+  var re=$("risk");re.textContent=b.r;re.style.color=b.c;
+  var goal=parseFloat(d.goal);
+  $("goalTxt").textContent=isNaN(goal)?"":(a.pred>=goal?"You are "+(a.pred-goal)+" marks above your target of "+goal+".":"You are "+(goal-a.pred)+" marks below your target of "+goal+".");
+  $("habits").innerHTML=F.map(function(f){var s=a.st[f.id]||"ok";
+    return '<div class="hab"><span>'+f.label+'</span><b>'+d.v[f.id]+f.unit+'</b><div class="t"><i style="width:'+a.pct[f.id]+'%;background:'+COL[s]+'"></i></div></div>'}).join("");
+  var lab={danger:"Critical",warn:"Watch",ok:"On track"};
+  $("warnings").innerHTML=a.W.map(function(w){return '<div class="w '+w.s+'"><b><em>'+lab[w.s]+'</em>'+w.t+'</b><p>'+w.m+'</p></div>'}).join("");
+}
+
+/* ---------- teacher view ---------- */
+F.forEach(function(f){
+  var d=el("div","field");
+  d.innerHTML='<label for="t_'+f.id+'">'+f.short+'</label><input type="number" id="t_'+f.id+'" min="'+f.min+'" max="'+f.max+'" step="'+(f.step||1)+'" value="'+f.val+'">';
+  $("addgrid").appendChild(d);
+});
+var nf=el("div","field");nf.style.gridColumn="1/-1";
+nf.innerHTML='<label for="t_name">Student name</label><input type="text" id="t_name" maxlength="60" autocomplete="off">';
+$("addgrid").insertBefore(nf,$("addgrid").firstChild);
+function activeTeacher(){
+  var email=read("pp_active_teacher");if(!email)return null;
+  var T=read("pp_teachers")||[];
+  for(var i=0;i<T.length;i++)if(T[i].email.toLowerCase()===String(email).toLowerCase())return T[i];
+  return null;
+}
+function collegeKey(s){return String(s||"").trim().toLowerCase()}
+$("tabSignup").addEventListener("click",function(){$("tabSignup").setAttribute("aria-current","page");$("tabLogin").removeAttribute("aria-current");$("signupBox").hidden=false;$("loginBox").hidden=true;$("authErr").textContent=""});
+$("tabLogin").addEventListener("click",function(){$("tabLogin").setAttribute("aria-current","page");$("tabSignup").removeAttribute("aria-current");$("loginBox").hidden=false;$("signupBox").hidden=true;$("authErr").textContent=""});
+$("signupBtn").addEventListener("click",function(){
+  var n=$("tName").value.trim(),e=$("tEmail").value.trim(),c=$("tCollege").value.trim();
+  if(!n||!e||!c){$("authErr").textContent="Fill in your name, email and college.";return}
+  if(e.indexOf("@")<1){$("authErr").textContent="Enter a valid email address.";return}
+  var T=read("pp_teachers")||[];
+  if(T.some(function(t){return t.email.toLowerCase()===e.toLowerCase()})){$("authErr").textContent="An account with this email already exists. Use Log in instead.";return}
+  T.push({name:n,email:e,college:c});store("pp_teachers",T);store("pp_active_teacher",e);
+  $("authErr").textContent="";renderTeacherPage();
+});
+$("loginBtn").addEventListener("click",function(){
+  var e=$("tEmailLogin").value.trim();
+  var T=read("pp_teachers")||[];
+  var m=T.filter(function(t){return t.email.toLowerCase()===e.toLowerCase()})[0];
+  if(!m){$("authErr").textContent="No teacher profile found with that email. Sign up first.";return}
+  store("pp_active_teacher",m.email);$("authErr").textContent="";renderTeacherPage();
+});
+$("tLogout").addEventListener("click",function(){try{localStorage.removeItem("pp_active_teacher")}catch(e){}renderTeacherPage()});
+function renderTeacherPage(){
+  var t=activeTeacher();
+  if(!t){$("teacherGate").hidden=false;$("teacherContent").hidden=true;return}
+  $("teacherGate").hidden=true;$("teacherContent").hidden=false;
+  $("tAvatar").textContent=t.name.split(/\s+/).slice(0,2).map(function(w){return w.charAt(0).toUpperCase()}).join("");
+  $("tWho").textContent=t.name;$("tCollegeChip").textContent=t.college;
+  renderRoster();
+}
+$("addBtn").addEventListener("click",function(){
+  var t=activeTeacher();if(!t)return;
+  var n=$("t_name").value.trim();
+  if(!n){$("rerr").textContent="Enter the student's name.";$("t_name").focus();return}
+  var v={};
+  for(var i=0;i<F.length;i++){var f=F[i],x=parseFloat($("t_"+f.id).value);
+    if(isNaN(x)||x<f.min||x>f.max){$("rerr").textContent=f.short+" must be a number from "+f.min+" to "+f.max+".";$("t_"+f.id).focus();return}v[f.id]=x}
+  $("rerr").textContent="";
+  var R=read("pp_roster")||[];R.push({id:Date.now()+Math.random(),name:n,school:t.college,v:v});store("pp_roster",R);
+  $("t_name").value="";renderRoster();
+});
+$("sample").addEventListener("click",function(){
+  var t=activeTeacher();if(!t)return;
+  var S=[["Aarav Reddy",72,90,88,12,7.5,2.5],["Sneha Rao",88,96,95,16,8,1.5],["Kiran Kumar",45,68,50,4,5.5,6],["Divya Lakshmi",60,80,72,8,6.5,4],["Rahul Varma",35,58,40,3,5,7],["Meena Devi",78,92,90,14,8,2]];
+  var R=read("pp_roster")||[];
+  S.forEach(function(s){R.push({id:Date.now()+Math.random(),name:s[0],school:t.college,v:{prev:s[1],att:s[2],asg:s[3],study:s[4],sleep:s[5],dist:s[6]}})});
+  store("pp_roster",R);renderRoster();
+});
+$("clearR").addEventListener("click",function(){
+  var t=activeTeacher();if(!t)return;
+  var R=(read("pp_roster")||[]).filter(function(r){return collegeKey(r.school)!==collegeKey(t.college)});
+  store("pp_roster",R);renderRoster();
+});
+$("flt").addEventListener("change",renderRoster);
+function renderRoster(){
+  var t=activeTeacher();if(!t)return;
+  var R=(read("pp_roster")||[]).filter(function(s){return collegeKey(s.school)===collegeKey(t.college)});
+  var all=R.map(function(s){return {s:s,a:analyse(s.v)}});
+  var sum=all.reduce(function(t,x){return t+x.a.pred},0);
+  var crit=all.reduce(function(t,x){return t+x.a.W.filter(function(w){return w.s==="danger"}).length},0);
+  $("sCount").textContent=all.length;
+  $("sAvg").textContent=all.length?Math.round(sum/all.length):"0";
+  $("sRisk").textContent=all.filter(function(x){return x.a.pred<55}).length;
+  $("sCrit").textContent=crit;
+  var rows=all.slice();
+  if($("flt").value==="risk")rows=rows.filter(function(x){return x.a.pred<55});
+  rows.sort(function(a,b){return a.a.pred-b.a.pred});
+  var tb=$("rbody");tb.textContent="";
+  rows.forEach(function(x){
+    var b=band(x.a.pred),tr=el("tr");
+    tr.appendChild(el("td","",x.s.name));
+    var t2=el("td");t2.appendChild(el("b","",x.a.pred+" ("+b.g+")"));tr.appendChild(t2);
+    var t3=el("td");var bd=el("span","badge",b.lab);bd.style.color=b.c;bd.style.background=b.bg;t3.appendChild(bd);tr.appendChild(t3);
+    tr.appendChild(el("td","",String(x.a.W.filter(function(w){return w.s==="danger"}).length)));
+    tr.appendChild(el("td","",x.a.W[0].s==="ok"?"None":x.a.W[0].t));
+    var t6=el("td");var rm=el("button","","Remove");rm.style.padding="4px 10px";
+    rm.addEventListener("click",function(){store("pp_roster",(read("pp_roster")||[]).filter(function(r){return r.id!==x.s.id}));renderRoster()});
+    t6.appendChild(rm);tr.appendChild(t6);tb.appendChild(tr);
+  });
+  $("rempty").hidden=all.length>0;
+}
+
+/* ---------- start ---------- */
+var saved=read("pp_profile");
+if(saved&&saved.name){fill(saved);show(saved)}
+go("home");
+</script>
+</body>
+</html>
